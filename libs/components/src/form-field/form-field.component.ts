@@ -19,6 +19,8 @@ import { BitLabelComponent } from "../form-control/label.component";
 import { BitErrorComponent } from "./error.component";
 import { BitFormFieldControl } from "./form-field-control";
 
+type InputSize = "base" | "large";
+
 // FIXME(https://bitwarden.atlassian.net/browse/CL-764): Migrate to OnPush
 // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
 @Component({
@@ -42,6 +44,8 @@ export class BitFormFieldComponent implements AfterContentChecked {
   readonly error = viewChild(BitErrorComponent);
 
   readonly disableMargin = input(false, { transform: booleanAttribute });
+
+  readonly size = input<InputSize>("base");
 
   /** If `true`, remove the bottom border for `readonly` inputs */
   // TODO: Skipped for signal migration because:
@@ -76,7 +80,7 @@ export class BitFormFieldComponent implements AfterContentChecked {
       "has-[bit-select]:tw-p-0",
       "has-[bit-multi-select]:tw-p-0",
       "has-[textarea]:tw-pe-0",
-      ...(this.readOnly ? [] : ["tw-py-[calc(theme(spacing.2)_-_1px)]", "tw-px-3"]),
+      ...(this.readOnly ? [] : ["tw-px-3"]),
     ].join(" ");
   }
 
@@ -84,7 +88,7 @@ export class BitFormFieldComponent implements AfterContentChecked {
     return [
       "tw-group/form-field",
       "tw-flex",
-      "tw-min-h-10",
+      // "tw-h-10",
       "tw-border",
       "tw-rounded-xl",
       "tw-border-solid",
@@ -95,6 +99,9 @@ export class BitFormFieldComponent implements AfterContentChecked {
       "has-[:focus-visible]:tw-border-border-brand",
       "has-[:focus-visible]:tw-ring-border-brand",
       "has-[:focus-visible]:tw-ring-1",
+      ...(this.size() === "large"
+        ? ["tw-text-base/6", "tw-min-h-12"]
+        : ["tw-text-sm/5", "tw-min-h-10"]),
       ...(this.input().hasError
         ? [
             "!tw-ring-border-danger",
