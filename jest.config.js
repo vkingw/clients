@@ -71,6 +71,6 @@ module.exports = {
   // Workaround for a memory leak that crashes tests in CI:
   // https://github.com/facebook/jest/issues/9430#issuecomment-1149882002
   // Also anecdotally improves performance when run locally
-  maxWorkers: 16,
-  workerIdleMemoryLimit: "512MB",
+  maxWorkers: 8,
+  workerIdleMemoryLimit: "1024MB",
 };
